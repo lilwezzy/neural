@@ -214,6 +214,18 @@ input:checked+.slider-round:before {
     box-shadow: 0 0 10px white;
 }
 
+/* Helper for Neural Monitor small toggle */
+.small-toggle:before {
+    width: 10px !important;
+    height: 10px !important;
+    bottom: 3px !important;
+    left: 3px !important;
+}
+
+input:checked+.small-toggle:before {
+    transform: translateX(14px) !important;
+}
+
 /* Mode Switcher (BIN/ISO) */
 .mode-toggle {
     display: flex;

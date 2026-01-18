@@ -1,10 +1,8 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { AudioEngine } from '../engine/AudioEngine';
 import Spectrogram from './Spectrogram';
 import { NEURAL_PROGRAMS } from '../data/programs';
 
-// Constants
-const OPTIMAL_SUBLIMINAL_RATE = 1.9;
 const audioEngine = new AudioEngine();
 
 export default function Dashboard() {
@@ -189,7 +187,7 @@ export default function Dashboard() {
                                 checked={diagnosticMode}
                                 onChange={(e) => setDiagnosticMode(e.target.checked)}
                             />
-                            <span className="slider-round" style={{ before: { width: '12px', height: '12px' } }}></span>
+                            <span className="slider-round small-toggle"></span>
                         </label>
                     </div>
 
