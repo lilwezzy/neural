@@ -223,6 +223,17 @@ export default function Dashboard() {
                     </div>
                 </div>
 
+                <div className="neural-core-container">
+                    <img
+                        src="/sri-yantra.png"
+                        className={`neural-core-logo ${engineOn ? 'active' : ''}`}
+                        style={{
+                            '--pulse-speed': `${1 / activeProg.entrainmentFreq * 4}s`
+                        } as React.CSSProperties}
+                        alt="Neural Core"
+                    />
+                </div>
+
                 <div className="spectrogram-section">
                     <Spectrogram analyzer={audioEngine.analyzer} />
                 </div>
