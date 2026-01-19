@@ -119,8 +119,7 @@ export default function Dashboard() {
 
             <div className="dashboard-container">
                 <div className="header">
-                    <h1>NEURAL SHIFT</h1>
-                    <p>Maximum Entrainment Signal Stack</p>
+                    <img src="/neural-shift-header.png" alt="Neural Shift" className="brand-header-img" />
                 </div>
                 <div className="program-select card" style={{ marginBottom: '2rem', minHeight: '120px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
