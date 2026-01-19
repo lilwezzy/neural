@@ -122,13 +122,23 @@ export default function Dashboard() {
                     <h1>NEURAL ENGINE</h1>
                     <p>Maximum Entrainment Signal Stack</p>
                 </div>
-                <div className="program-select card" style={{ marginBottom: '2rem' }}>
-                    <h3>Active Neural Protocol</h3>
-                    <select value={selectedProgramId} onChange={(e) => setSelectedProgramId(e.target.value)}>
-                        {NEURAL_PROGRAMS.map(p => (
-                            <option key={p.id} value={p.id}>{p.name} — {p.category}</option>
-                        ))}
-                    </select>
+                <div className="program-select card" style={{ marginBottom: '2rem', minHeight: '120px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                        <h3 style={{ margin: 0 }}>Active Neural Protocol</h3>
+                        <select value={selectedProgramId} onChange={(e) => setSelectedProgramId(e.target.value)} style={{ width: 'auto', maxWidth: '60%' }}>
+                            {NEURAL_PROGRAMS.map(p => (
+                                <option key={p.id} value={p.id}>{p.name} — {p.category}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {subliminalOn && engineOn && (
+                        <div className="card-affirmation-display">
+                            <div className={`affirmation-text ${showAffirmation ? 'visible' : ''}`}>
+                                {activeProg.affirmations[currentAffirmationIndex]}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <div className="slider-container slider-lime">
@@ -223,17 +233,6 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div className="neural-core-container">
-                    <img
-                        src="/sri-yantra.png"
-                        className={`neural-core-logo ${engineOn ? 'active' : ''}`}
-                        style={{
-                            '--pulse-speed': `${1 / activeProg.entrainmentFreq * 4}s`
-                        } as React.CSSProperties}
-                        alt="Neural Core"
-                    />
-                </div>
-
                 <div className="spectrogram-section">
                     <Spectrogram analyzer={audioEngine.analyzer} />
                 </div>
@@ -246,15 +245,6 @@ export default function Dashboard() {
                     {engineOn ? 'SYSTEM ACTIVE' : 'INITIALIZE SYSTEM'}
                 </button>
             </div>
-
-            {subliminalOn && engineOn && (
-                <div className="affirmation-projection-layer">
-                    <div className="projection-label">Neural Projection</div>
-                    <div className={`affirmation-text ${showAffirmation ? 'visible' : ''}`}>
-                        {activeProg.affirmations[currentAffirmationIndex]}
-                    </div>
-                </div>
-            )}
         </>
     );
 }
