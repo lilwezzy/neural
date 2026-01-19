@@ -119,7 +119,7 @@ export default function Dashboard() {
 
             <div className="dashboard-container">
                 <div className="header">
-                    <h1>NEURAL ENGINE</h1>
+                    <h1>NEURAL SHIFT</h1>
                     <p>Maximum Entrainment Signal Stack</p>
                 </div>
                 <div className="program-select card" style={{ marginBottom: '2rem', minHeight: '120px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
