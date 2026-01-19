@@ -140,6 +140,10 @@ export default function Dashboard() {
                     )}
                 </div>
 
+                <div className="spectrogram-section" style={{ marginBottom: '2rem' }}>
+                    <Spectrogram analyzer={audioEngine.analyzer} />
+                </div>
+
                 <div className="slider-container slider-lime">
                     <div className="slider-label">
                         <span>System Master Volume</span>
@@ -232,9 +236,6 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div className="spectrogram-section">
-                    <Spectrogram analyzer={audioEngine.analyzer} />
-                </div>
 
                 <button
                     className={`init-btn ${engineOn ? 'active' : ''}`}
