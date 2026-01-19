@@ -239,6 +239,16 @@ input:checked+.slider-round:before {
     box-shadow: 0 0 10px white;
 }
 
+input:checked+.toggle-green {
+    background-color: var(--neon-lime);
+    box-shadow: 0 0 20px rgba(162, 255, 0, 0.4);
+}
+
+input:checked+.toggle-purple {
+    background-color: var(--neon-purple);
+    box-shadow: 0 0 20px rgba(157, 0, 255, 0.4);
+}
+
 /* Helper for Neural Monitor small toggle */
 .small-toggle:before {
     width: 10px !important;

@@ -163,7 +163,7 @@ export default function Dashboard() {
                                     checked={engineOn}
                                     onChange={(e) => setEngineOn(e.target.checked)}
                                 />
-                                <span className="slider-round"></span>
+                                <span className="slider-round toggle-purple"></span>
                             </label>
                         </div>
                     </div>
@@ -177,7 +177,7 @@ export default function Dashboard() {
                                     checked={spatial8D}
                                     onChange={(e) => setSpatial8D(e.target.checked)}
                                 />
-                                <span className="slider-round"></span>
+                                <span className="slider-round toggle-green"></span>
                             </label>
                         </div>
                         <div style={{ textAlign: 'center', fontSize: '0.6rem', color: '#666', letterSpacing: '0.1em' }}>
@@ -194,7 +194,7 @@ export default function Dashboard() {
                                     checked={subliminalOn}
                                     onChange={(e) => setSubliminalOn(e.target.checked)}
                                 />
-                                <span className="slider-round"></span>
+                                <span className="slider-round toggle-purple"></span>
                             </label>
                         </div>
 
