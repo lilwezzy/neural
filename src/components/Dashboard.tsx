@@ -29,64 +29,55 @@ export default function Dashboard() {
         localStorage.setItem('selectedProgramId', selectedProgramId);
     }, [engineOn, masterVol, subliminalVol, subliminalOn, spatial8D, selectedProgramId]);
 
-    // --- AUDIO ENGINE LIFECYCLE ---
+    // --- CONSOLIDATED AUDIO CONTROLLER ---
     useEffect(() => {
-        if (engineOn) {
-            audioEngine.init().then(() => {
-                const prog = NEURAL_PROGRAMS.find(p => p.id === selectedProgramId);
-                audioEngine.startBinaural(prog?.carrierFreq || 432, beatHz, true);
-                if (subliminalOn) {
-                    audioEngine.startSubliminal(diagnosticMode);
-                }
-            });
-        } else {
-            audioEngine.stopAll();
-        }
-    }, [engineOn, subliminalOn, selectedProgramId, beatHz, diagnosticMode]);
+        let isActive = true;
 
-    useEffect(() => {
-        if (engineOn && audioEngine.isInitialized()) {
-            // The master slider affects the ENTIRE signal stack (Carriers + Mixed Voice)
-            audioEngine.setMasterVolume(masterVol);
+        const syncAudio = async () => {
+            if (!engineOn) {
+                audioEngine.stopAll();
+                return;
+            }
 
-            // The carrier intensity (carrier tones themselves) is fixed at 1.0 (relative to master)
-            audioEngine.setEntrainmentVolume(1.0);
+            await audioEngine.init();
+            if (!isActive) return;
 
-            // The subliminal sub-mixer in the engine (for the hardware carrier)
-            audioEngine.setSubliminalVolume(subliminalVol);
-
-            audioEngine.toggle8D(spatial8D, 0.1);
-        }
-    }, [masterVol, subliminalVol, spatial8D, engineOn]);
-
-    // --- BUFFER LOADING ENGINE ---
-    useEffect(() => {
-        const loadBuffer = async () => {
             const prog = NEURAL_PROGRAMS.find(p => p.id === selectedProgramId);
             if (!prog) return;
 
-            setIsBufferLoading(true);
-            try {
-                // Determine if .wav or .mp3 based on your production preference
-                // Standardizing on .wav as it's the ideal lossless format for looping
-                const url = `/audio/affirmations/${prog.id}.wav`;
-                const buffer = await audioEngine.loadAudioBuffer(url);
-                audioEngine.setSubliminalBuffer(buffer);
+            // 1. Initial Entrainment Start
+            audioEngine.startBinaural(prog.carrierFreq, beatHz, true);
 
-                // If engine is already running, refresh the subliminal stream
-                if (engineOn && subliminalOn) {
+            // 2. Buffer Synchronization
+            if (subliminalOn) {
+                setIsBufferLoading(true);
+                try {
+                    const url = `/audio/affirmations/${prog.id}.wav`;
+                    const buffer = await audioEngine.loadAudioBuffer(url);
+                    if (!isActive) return;
+
+                    audioEngine.setSubliminalBuffer(buffer);
                     audioEngine.startSubliminal(diagnosticMode);
+                } catch (err) {
+                    console.warn(`Neural Engine: State sync failed for ${selectedProgramId}:`, err);
+                    audioEngine.setSubliminalBuffer(null);
+                } finally {
+                    if (isActive) setIsBufferLoading(false);
                 }
-            } catch (err) {
-                console.warn(`Buffer load failed for ${selectedProgramId}:`, err);
-                audioEngine.setSubliminalBuffer(null);
-            } finally {
+            } else {
+                audioEngine.stopSubliminal();
                 setIsBufferLoading(false);
             }
         };
 
-        loadBuffer();
-    }, [selectedProgramId, engineOn, subliminalOn]);
+        syncAudio();
+
+        return () => {
+            isActive = false;
+        };
+    }, [engineOn, subliminalOn, selectedProgramId, beatHz, diagnosticMode]);
+
+    // --- REAL-TIME PARAMETER SYNC ---
 
     const fmt = (val: number) => `${Math.round(val * 100)}%`;
 

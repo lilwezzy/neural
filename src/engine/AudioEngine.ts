@@ -40,7 +40,12 @@ export class AudioEngine {
     }
 
     public async init() {
-        if (this.ctx) return;
+        if (this.ctx) {
+            if (this.ctx.state === 'suspended') {
+                await this.ctx.resume();
+            }
+            return;
+        }
         this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
 
         this.limiter = this.ctx.createDynamicsCompressor();
@@ -132,11 +137,17 @@ export class AudioEngine {
 
     public async loadAudioBuffer(url: string): Promise<AudioBuffer> {
         if (!this.ctx) await this.init();
-        if (!this.ctx) throw new Error('AudioContext not initialized');
+        if (!this.ctx) throw new Error('Neural Engine: AudioContext failed to initialize');
 
-        const response = await fetch(url);
-        const arrayBuffer = await response.arrayBuffer();
-        return await this.ctx.decodeAudioData(arrayBuffer);
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const arrayBuffer = await response.arrayBuffer();
+            return await this.ctx.decodeAudioData(arrayBuffer);
+        } catch (err) {
+            console.error(`Neural Engine: Buffer Load Error [${url}]:`, err);
+            throw err;
+        }
     }
 
     public setSubliminalBuffer(buffer: AudioBuffer | null) {

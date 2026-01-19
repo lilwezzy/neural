@@ -22,8 +22,12 @@ body {
 
 .dashboard-container {
     padding: 3rem 2rem;
+    padding-top: calc(3rem + env(safe-area-inset-top));
+    padding-bottom: calc(3rem + env(safe-area-inset-bottom));
     max-width: 1100px;
     margin: 0 auto;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 /* Typography */
@@ -144,11 +148,13 @@ input[type="range"] {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .dashboard-container {
-        padding: 2rem 1rem;
+        padding: 1.5rem 1rem;
+        padding-top: calc(1.5rem + env(safe-area-inset-top));
+        padding-bottom: calc(2.5rem + env(safe-area-inset-bottom));
     }
 
     .header h1 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
 
     .controls-grid {
@@ -157,7 +163,7 @@ input[type="range"] {
     }
 
     .card {
-        padding: 1.2rem;
+        padding: 1.1rem;
     }
 }
 
