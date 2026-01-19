@@ -28,6 +28,8 @@ body {
     margin: 0 auto;
     min-height: 100vh;
     box-sizing: border-box;
+    position: relative;
+    z-index: 1;
 }
 
 /* Typography */
@@ -285,4 +287,54 @@ input:checked+.small-toggle:before {
     color: black;
     border-color: white;
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+/* Kinetic Affirmation Projection */
+.affirmation-projection-layer {
+    position: fixed;
+    bottom: 5vh;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    z-index: 10;
+    text-align: center;
+    padding: 0 2rem;
+}
+
+.affirmation-text {
+    font-size: 0.8rem;
+    font-weight: 300;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: white;
+    opacity: 0;
+    filter: blur(10px);
+    transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 600px;
+    line-height: 1.8;
+}
+
+.affirmation-text.visible {
+    opacity: 0.4;
+    filter: blur(0px);
+    letter-spacing: 0.2em;
+}
+
+.projection-label {
+    font-size: 0.5rem;
+    letter-spacing: 0.5em;
+    color: var(--neon-cyan);
+    margin-bottom: 1rem;
+    opacity: 0.3;
+    text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+    .affirmation-text {
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+    }
 }
