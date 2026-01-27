@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { AudioEngine } from '../engine/AudioEngine';
 import Spectrogram from './Spectrogram';
-import { NEURAL_PROGRAMS, NeuralProgram } from '../data/programs';
+import { NEURAL_PROGRAMS, type NeuralProgram } from '../data/programs';
 import { NeuralBackground } from './NeuralBackground';
 import { useSessionHistory, usePreferences } from '../hooks/useSession';
-import { canAccessProgram, FREE_PROGRAMS } from '../data/pricing';
+import { canAccessProgram } from '../data/pricing';
 import PricingModal from './PricingModal';
 
 const audioEngine = new AudioEngine();
@@ -20,7 +20,7 @@ export default function Dashboard() {
     const [spatial8D, setSpatial8D] = useState(true);
     const [selectedProgramId, setSelectedProgramId] = useState(lastProgram || NEURAL_PROGRAMS[0].id);
     const [masterVol, setMasterVol] = useState(masterVolume);
-    const [subliminalVol, setSubliminalVolume] = useState(subliminalVolume);
+    const [subliminalVol, setSubliminalVol] = useState(subliminalVolume);
 
     // --- SESSION TRACKING ---
     const sessionStartRef = useRef<number | null>(null);
@@ -55,8 +55,6 @@ export default function Dashboard() {
     useEffect(() => {
         setLastProgram(selectedProgramId);
     }, [selectedProgramId, setLastProgram]);
-
-    const activeProg = NEURAL_PROGRAMS.find(p => p.id === selectedProgramId) || NEURAL_PROGRAMS[0];
 
     // Affirmation Cycle
     useEffect(() => {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PRICING_TIERS, formatPrice, setProStatus, isPro } from '../data/pricing';
-import { NEURAL_PROGRAMS, NeuralProgram } from '../data/programs';
+import { NEURAL_PROGRAMS, type NeuralProgram } from '../data/programs';
 import { createCheckoutSession, simulatePurchase } from '../services/stripe';
 
 interface PricingModalProps {
