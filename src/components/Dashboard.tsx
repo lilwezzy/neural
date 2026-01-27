@@ -4,6 +4,8 @@ import Spectrogram from './Spectrogram';
 import { NEURAL_PROGRAMS, NeuralProgram } from '../data/programs';
 import { NeuralBackground } from './NeuralBackground';
 import { useSessionHistory, usePreferences } from '../hooks/useSession';
+import { canAccessProgram, FREE_PROGRAMS } from '../data/pricing';
+import PricingModal from './PricingModal';
 
 const audioEngine = new AudioEngine();
 
@@ -30,6 +32,8 @@ export default function Dashboard() {
     const [diagnosticMode, setDiagnosticMode] = useState(false);
     const [currentAffirmationIndex, setCurrentAffirmationIndex] = useState(0);
     const [showAffirmation, setShowAffirmation] = useState(false);
+    const [showPricing, setShowPricing] = useState(false);
+    const [lockedProgram, setLockedProgram] = useState<NeuralProgram | null>(null);
 
     const activeProg = NEURAL_PROGRAMS.find(p => p.id === selectedProgramId) || NEURAL_PROGRAMS[0];
     currentProgramRef.current = activeProg;
@@ -154,11 +158,25 @@ export default function Dashboard() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
                         <h3 style={{ margin: 0 }}>Active Neural Protocol</h3>
                         <select value={selectedProgramId} onChange={(e) => setSelectedProgramId(e.target.value)} style={{ width: 'auto', maxWidth: '60%' }}>
-                            {NEURAL_PROGRAMS.map(p => (
-                                <option key={p.id} value={p.id}>{p.name} — {p.category}</option>
-                            ))}
+                            {NEURAL_PROGRAMS.map(p => {
+                                const isLocked = !canAccessProgram(p.id);
+                                return (
+                                    <option key={p.id} value={p.id}>
+                                        {p.name} — {p.category}{isLocked ? ' 🔒' : ''}
+                                    </option>
+                                );
+                            })}
                         </select>
                     </div>
+
+                    {!canAccessProgram(activeProg.id) && (
+                        <div className="locked-banner">
+                            <span>🔒</span> This program requires Pro. 
+                            <button onClick={() => { setLockedProgram(activeProg); setShowPricing(true); }}>
+                                Upgrade Now
+                            </button>
+                        </div>
+                    )}
 
                     {subliminalOn && engineOn && (
                         <div className="card-affirmation-display">
@@ -269,9 +287,18 @@ export default function Dashboard() {
                 <button
                     className={`init-btn ${engineOn ? 'active' : ''}`}
                     style={{ marginTop: '2rem' }}
-                    onClick={() => setEngineOn(!engineOn)}
+                    onClick={() => {
+                        if (!engineOn && !canAccessProgram(activeProg.id)) {
+                            setLockedProgram(activeProg);
+                            setShowPricing(true);
+                        } else {
+                            setEngineOn(!engineOn);
+                        }
+                    }}
                 >
-                    {engineOn ? 'SYSTEM ACTIVE' : 'INITIALIZE SYSTEM'}
+                    {!canAccessProgram(activeProg.id) 
+                        ? '🔒 UPGRADE TO UNLOCK' 
+                        : engineOn ? 'SYSTEM ACTIVE' : 'INITIALIZE SYSTEM'}
                 </button>
 
                 {/* Session Stats */}
@@ -316,6 +343,44 @@ export default function Dashboard() {
                     </details>
                 </div>
             </div>
+
+            {/* Pricing Modal */}
+            <PricingModal
+                isOpen={showPricing}
+                onClose={() => setShowPricing(false)}
+                requestedProgram={lockedProgram}
+                trigger="paywall"
+            />
+
+            <style>{`
+                .locked-banner {
+                    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+                    border: 1px solid #6366f1;
+                    border-radius: 8px;
+                    padding: 1rem;
+                    margin-top: 1rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-size: 0.9rem;
+                    color: #ccc;
+                }
+                
+                .locked-banner button {
+                    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+                    border: none;
+                    color: white;
+                    padding: 0.5rem 1rem;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    margin-left: auto;
+                }
+                
+                .locked-banner button:hover {
+                    transform: translateY(-1px);
+                }
+            `}</style>
         </>
     );
 }
