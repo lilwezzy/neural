@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { PRICING_TIERS, formatPrice, setProStatus, isPro } from '../data/pricing';
 import { NEURAL_PROGRAMS, NeuralProgram } from '../data/programs';
+import { createCheckoutSession, simulatePurchase } from '../services/stripe';
 
 interface PricingModalProps {
   isOpen: boolean;
@@ -12,25 +13,49 @@ interface PricingModalProps {
 export default function PricingModal({ isOpen, onClose, requestedProgram, trigger = 'upgrade' }: PricingModalProps) {
   const [loading, setLoading] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
   const handlePurchase = async (tierId: string) => {
-    setLoading(tierId);
-    
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // For demo, set pro status on any purchase
-    setProStatus(true);
-    setLoading(null);
-    setSuccess(true);
-    
-    // Close after success message
-    setTimeout(() => {
+    if (tierId === 'free') {
       onClose();
-      setSuccess(false);
-    }, 2000);
+      return;
+    }
+
+    setLoading(tierId);
+    setError(null);
+
+    try {
+      // Try real Stripe checkout first
+      const session = await createCheckoutSession(tierId);
+      
+      if (session?.sessionId) {
+        // Redirect to Stripe Checkout
+        window.location.href = `/api/checkout?session_id=${session.sessionId}`;
+        return;
+      }
+      
+      // Fall back to demo mode (no Stripe configured)
+      console.log('Using demo mode - Stripe not configured');
+      const success = await simulatePurchase(tierId);
+      
+      if (success) {
+        setProStatus(true);
+        setSuccess(true);
+        setTimeout(() => {
+          onClose();
+          setSuccess(false);
+        }, 2000);
+      } else {
+        setError('Purchase failed. Please try again.');
+      }
+    } catch (err: any) {
+      console.error('Purchase error:', err);
+      setError(err.message || 'Purchase failed. Please try again.');
+    } finally {
+      setLoading(null);
+    }
   };
 
   const lockedPrograms = requestedProgram 
