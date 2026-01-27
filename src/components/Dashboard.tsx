@@ -1,19 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { AudioEngine } from '../engine/AudioEngine';
 import Spectrogram from './Spectrogram';
-import { NEURAL_PROGRAMS } from '../data/programs';
+import { NEURAL_PROGRAMS, NeuralProgram } from '../data/programs';
 import { NeuralBackground } from './NeuralBackground';
+import { useSessionHistory, usePreferences } from '../hooks/useSession';
 
 const audioEngine = new AudioEngine();
 
 export default function Dashboard() {
-    // --- PERSISTED STATE ---
-    const [engineOn, setEngineOn] = useState(() => localStorage.getItem('engineOn') === 'true');
-    const [masterVol, setMasterVol] = useState(() => parseFloat(localStorage.getItem('masterVol') || '0.5'));
-    const [subliminalVol, setSubliminalVol] = useState(() => parseFloat(localStorage.getItem('subliminalVol') || '0.05'));
-    const [subliminalOn, setSubliminalOn] = useState(() => localStorage.getItem('subliminalOn') === 'true');
-    const [spatial8D, setSpatial8D] = useState(() => localStorage.getItem('spatial8D') !== 'false');
-    const [selectedProgramId, setSelectedProgramId] = useState(() => localStorage.getItem('selectedProgramId') || NEURAL_PROGRAMS[0].id);
+    // --- PERSISTED STATE (from hooks) ---
+    const { masterVolume, setMasterVolume, subliminalVolume, setSubliminalVolume, lastProgram, setLastProgram } = usePreferences();
+    const { sessions, addSession, clearSessions, getTotalTime } = useSessionHistory();
+
+    // --- LOCAL STATE ---
+    const [engineOn, setEngineOn] = useState(false);
+    const [subliminalOn, setSubliminalOn] = useState(true);
+    const [spatial8D, setSpatial8D] = useState(true);
+    const [selectedProgramId, setSelectedProgramId] = useState(lastProgram || NEURAL_PROGRAMS[0].id);
+    const [masterVol, setMasterVol] = useState(masterVolume);
+    const [subliminalVol, setSubliminalVolume] = useState(subliminalVolume);
+
+    // --- SESSION TRACKING ---
+    const sessionStartRef = useRef<number | null>(null);
+    const currentProgramRef = useRef<NeuralProgram>(NEURAL_PROGRAMS[0]);
 
     // --- NON-PERSISTED SESSION STATE ---
     const [beatHz] = useState(10);
@@ -21,6 +30,27 @@ export default function Dashboard() {
     const [diagnosticMode, setDiagnosticMode] = useState(false);
     const [currentAffirmationIndex, setCurrentAffirmationIndex] = useState(0);
     const [showAffirmation, setShowAffirmation] = useState(false);
+
+    const activeProg = NEURAL_PROGRAMS.find(p => p.id === selectedProgramId) || NEURAL_PROGRAMS[0];
+    currentProgramRef.current = activeProg;
+
+    // Track session when engine turns on/off
+    useEffect(() => {
+        if (engineOn) {
+            sessionStartRef.current = Date.now();
+        } else if (sessionStartRef.current !== null) {
+            const duration = Math.round((Date.now() - sessionStartRef.current) / 1000);
+            if (duration >= 10) {
+                addSession(activeProg.id, activeProg.name, activeProg.category, duration);
+            }
+            sessionStartRef.current = null;
+        }
+    }, [engineOn, activeProg]);
+
+    // Sync last program
+    useEffect(() => {
+        setLastProgram(selectedProgramId);
+    }, [selectedProgramId, setLastProgram]);
 
     const activeProg = NEURAL_PROGRAMS.find(p => p.id === selectedProgramId) || NEURAL_PROGRAMS[0];
 
@@ -43,15 +73,14 @@ export default function Dashboard() {
         return () => clearInterval(cycle);
     }, [engineOn, subliminalOn, selectedProgramId, activeProg.affirmations.length]);
 
-    // LocalStorage Effect
+    // Update preferences when volumes change
     useEffect(() => {
-        localStorage.setItem('engineOn', engineOn.toString());
-        localStorage.setItem('masterVol', masterVol.toString());
-        localStorage.setItem('subliminalVol', subliminalVol.toString());
-        localStorage.setItem('subliminalOn', subliminalOn.toString());
-        localStorage.setItem('spatial8D', spatial8D.toString());
-        localStorage.setItem('selectedProgramId', selectedProgramId);
-    }, [engineOn, masterVol, subliminalVol, subliminalOn, spatial8D, selectedProgramId]);
+        setMasterVolume(masterVol);
+    }, [masterVol, setMasterVolume]);
+
+    useEffect(() => {
+        setSubliminalVolume(subliminalVol);
+    }, [subliminalVol, setSubliminalVolume]);
 
     // --- CONSOLIDATED AUDIO CONTROLLER ---
     useEffect(() => {
@@ -244,6 +273,48 @@ export default function Dashboard() {
                 >
                     {engineOn ? 'SYSTEM ACTIVE' : 'INITIALIZE SYSTEM'}
                 </button>
+
+                {/* Session Stats */}
+                <div className="card" style={{ marginTop: '2rem', fontSize: '0.75rem' }}>
+                    <details>
+                        <summary style={{ cursor: 'pointer', userSelect: 'none' }}>
+                            📊 Your Progress ({sessions.length} sessions)
+                        </summary>
+                        <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #333' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                                <div>
+                                    <div style={{ color: '#888', fontSize: '0.65rem' }}>TOTAL TIME</div>
+                                    <div style={{ fontSize: '1.2rem', color: '#4ade80' }}>
+                                        {Math.round(getTotalTime() / 60)} min
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style={{ color: '#888', fontSize: '0.65rem' }}>PROGRAMS USED</div>
+                                    <div style={{ fontSize: '1.2rem', color: '#6366f1' }}>
+                                        {new Set(sessions.map(s => s.programId)).size}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style={{ color: '#888', fontSize: '0.65rem', marginBottom: '0.5rem' }}>RECENT SESSIONS</div>
+                            {sessions.slice(0, 5).map((session) => (
+                                <div key={session.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.25rem 0', borderBottom: '1px solid #222' }}>
+                                    <span style={{ color: '#ccc' }}>{session.programName}</span>
+                                    <span style={{ color: '#666' }}>{Math.round(session.duration / 60)}min</span>
+                                </div>
+                            ))}
+                            <button
+                                onClick={() => {
+                                    if (confirm('Clear all session history?')) {
+                                        clearSessions();
+                                    }
+                                }}
+                                style={{ marginTop: '1rem', background: 'transparent', border: '1px solid #444', color: '#666', padding: '0.5rem 1rem', cursor: 'pointer', fontSize: '0.7rem' }}
+                            >
+                                Clear History
+                            </button>
+                        </div>
+                    </details>
+                </div>
             </div>
         </>
     );
