@@ -1,0 +1,103 @@
+# Neural Shift Launch Checklist
+
+## ✅ Pre-Launch (Before Publishing)
+
+### Code
+- [ ] App deployed and working on Vercel
+- [ ] PWA manifest working (installable on mobile)
+- [ ] Service worker caching audio
+- [ ] Pricing system visible
+- [ ] All TypeScript errors fixed
+- [ ] Mobile responsive tested
+
+### Stripe
+- [ ] Products created in Stripe Dashboard
+- [ ] Price IDs copied
+- [ ] Environment variables added to Vercel
+- [ ] Test payments working (use 4242 4242 4242 4242)
+
+### Analytics
+- [ ] Google Analytics 4 connected
+- [ ] Conversion events set up (pageview, signup, upgrade)
+- [ ] Funnel tracking ready
+
+---
+
+## 🚀 Launch Day
+
+### Morning (9AM EST)
+- [ ] Check app is live and working
+- [ ] Test payment flow (do a test purchase)
+- [ ] Send "Launch Day" tweet
+
+### Afternoon (12PM EST)
+- [ ] Post on Reddit: r/binauralbeats
+- [ ] Post on Reddit: r/subliminal
+- [ ] Post on Reddit: r/selfimprovement
+- [ ] Engage with all comments
+
+### Evening (6PM EST)
+- [ ] Send Email 1 to list (Welcome)
+- [ ] Post follow-up tweet
+- [ ] Check analytics
+
+---
+
+## Week 1
+
+### Daily Tasks
+- [ ] Respond to all comments/messages
+- [ ] Check analytics dashboard
+- [ ] Engage in Reddit threads
+
+### Content Schedule
+
+| Day | Platform | Content |
+|-----|----------|---------|
+| Mon | Reddit | Launch post |
+| Tue | Twitter | Features thread |
+| Wed | - | Engage with comments |
+| Thu | Twitter | Program highlight |
+| Fri | Reddit | r/selfimprovement post |
+| Sat | Email | Welcome sequence |
+| Sun | - | Rest/plan week 2 |
+
+---
+
+## Week 2
+
+- [ ] Send Email 2 (Value/Education)
+- [ ] Post new Twitter thread
+- [ ] Collect testimonials
+- [ ] Email 3 (Upgrade Pitch) if day 7+
+
+---
+
+## Week 3-4
+
+- [ ] Email 4 (Testimonials)
+- [ ] Email 5 (Last Chance)
+- [ ] Analyze conversion data
+- [ ] Optimize pricing if needed
+
+---
+
+## Success Metrics
+
+| Metric | Goal (Month 1) |
+|--------|----------------|
+| Website Visits | 1,000 |
+| Unique Users | 500 |
+| Email Signups | 50 |
+| Pro Conversions | 10 ($1,000) |
+| Reddit Upvotes | 100 |
+| Twitter Impressions | 10,000 |
+
+---
+
+## Resources
+
+- Reddit: r/binauralbeats, r/subliminal, r/selfimprovement, r/productivity
+- Twitter: @neuralshift (create account)
+- Analytics: Vercel Analytics / Google Analytics 4
+- Email: ConvertKit / Mailchimp (free tier)

@@ -1,0 +1,118 @@
+# Neural Shift - Metrics & Analytics Guide
+
+## What to Track
+
+### Traffic Metrics
+- Daily unique visitors
+- Session duration
+- Pages per session
+- Bounce rate
+- Traffic source (direct, social, referral)
+
+### User Behavior
+- Programs viewed
+- Programs started
+- Session duration per program
+- Return visitors
+- Free → Pro conversion rate
+
+### Revenue Metrics
+- Upgrade attempts
+- Successful purchases
+- Revenue per day/week/month
+- Refund rate
+- Lifetime value (LTV)
+
+### Funnel Stages
+1. Landing page → Program selection
+2. Program selection → Initialize
+3. Initialize → Session complete
+4. Session complete → Pricing view
+5. Pricing view → Upgrade
+
+---
+
+## Where to Track
+
+### Google Analytics 4
+- Install GA4 on website
+- Create events for: signup, upgrade, purchase
+- Set up conversion funnels
+- Link to Search Console
+
+### Vercel Analytics
+- Built-in, free
+- Shows: visitors, views, performance
+- Real-time dashboard
+
+### Stripe Dashboard
+- Revenue metrics
+- Failed vs successful payments
+- Refund tracking
+- Customer lifetime value
+
+---
+
+## Success Benchmarks (Month 1)
+
+| Metric | Poor | Good | Excellent |
+|--------|------|------|-----------|
+| Daily visitors | 10 | 50 | 100+ |
+| Session duration | 2 min | 8 min | 15 min |
+| Return rate | 10% | 25% | 40% |
+| Free → Pro conversion | 0.5% | 2% | 5% |
+| Revenue/month | $100 | $500 | $2,000 |
+
+---
+
+## Weekly Report Template
+
+### Week __ Report
+
+**Traffic:**
+- Visitors: ___
+- Sessions: ___
+- Avg Duration: ___
+- Top Source: ___
+
+**Conversions:**
+- Upgrades: ___
+- Revenue: ___
+- Conversion Rate: ___
+
+**Top Programs:**
+1. ___
+2. ___
+3. ___
+
+**Issues:**
+- ___
+
+**Next Week Goals:**
+- ___
+- ___
+
+---
+
+## Tools to Use
+
+### Free
+- GA4 (google.com/analytics)
+- Vercel Analytics (built-in)
+- Stripe Dashboard (free tier)
+
+### Paid (Optional)
+- Mixpanel ($0-25/mo)
+- Amplitude (free tier up to 100K events)
+- Heap (free tier)
+
+---
+
+## Quick Setup Checklist
+
+- [ ] Create GA4 property
+- [ ] Add tracking code to app
+- [ ] Set up conversion events
+- [ ] Create dashboard view
+- [ ] Set up weekly email reports
+- [ ] Link Stripe to GA4 (optional)

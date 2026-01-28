@@ -1,0 +1,179 @@
+# Email Sequence for Neural Shift
+
+---
+
+## Email 1: Welcome (Sent immediately on signup)
+
+**Subject:** Welcome to Neural Shift 🧠
+
+**Body:**
+
+Hey,
+
+Thanks for checking out Neural Shift!
+
+You're now part of a small community of people who are actively rewiring their brains for success.
+
+**Quick Start:**
+1. Pick a program (start with Money Magnet or The Zone)
+2. Put on headphones
+3. Press Initialize System
+
+**Pro Tip:** Listen while sleeping for maximum subliminal effect. The silent affirmations work below your conscious hearing.
+
+**Your First 7 Days:**
+Stick with ONE program for a full week. Don't jump around. Neural rewiring takes time.
+
+Questions? Just reply to this email.
+
+- Wayne
+Founder, Neural Shift
+
+P.S. - Start with "Money Magnet" if you want abundance, or "Vagus Reset" if you need stress relief.
+
+---
+
+## Email 2: Value / Education (Day 3)
+
+**Subject:** What program should YOU be using?
+
+**Body:**
+
+Hey,
+
+With 21 programs, it can be overwhelming. Here's my quick guide:
+
+**For Beginners:**
+→ The Zone (performance/focus)
+→ Vagus Reset (stress relief)
+
+**For Manifestation:**
+→ Money Magnet (wealth mindset)
+→ Quantum Collapse (instant manifestation)
+
+**For Deep Healing:**
+→ DNA REGEN (cellular repair)
+→ Restore 1.0 (sleep/recovery)
+
+**For Social/Charisma:**
+→ Executive Presence (authority energy)
+→ Magnetic Voice (communication)
+
+**My Recommendation:**
+Start with ONE program for 7 days. Track how you feel. Then switch.
+
+**Quick Link:** https://neural-ashy.vercel.app/
+
+- Wayne
+
+---
+
+## Email 3: Upgrade Pitch (Day 7-10)
+
+**Subject:** You've been using Neural Shift for a week... 🧠
+
+**Body:**
+
+Hey,
+
+You've had a week with Neural Shift. Hope it's been helpful!
+
+Right now, you have access to 5 free programs.
+
+**But there's more available:**
+
+All 21 programs including:
+→ Wealth Singularity (advanced abundance)
+→ Soulmate Sync (relationships)
+→ The Indestructible (unshakeable confidence)
+→ Heart-Brain Sync (coherence)
+
+Plus:
+→ 8D spatial audio on all tracks
+→ Advanced session analytics
+→ New programs added monthly
+
+**Launch Special:**
+50% off Pro for the next 7 days
+
+→ Pro Monthly: $3.99/mo (normally $7.99)
+→ Lifetime: $49 (normally $97)
+
+**Link:** https://neural-ashy.vercel.app/pricing
+
+This offer expires in 7 days.
+
+- Wayne
+
+---
+
+## Email 4: Testimonial / Social Proof (Day 14)
+
+**Subject:** What other users are saying
+
+**Body:**
+
+Hey,
+
+I wanted to share some feedback from the Neural Shift community:
+
+> "Used Money Magnet for 30 days. Started a new business and landed my first client within 2 weeks. Coincidence? Maybe. But I'm keeping this running."
+> — r/binauralbeats
+
+> "The Zone program is incredible for deep work. Put it on while coding and 4 hours passed like 30 minutes."
+> — Product Hunt user
+
+> "Vagus Reset literally cured my chronic stress. I've tried meditation apps, therapy, supplements. This is the only thing that worked."
+> — Reddit
+
+**Your turn:**
+
+What result are you looking for? Reply and tell me. I'll point you to the right program.
+
+- Wayne
+
+---
+
+## Email 5: Last Chance (Day 21)
+
+**Subject:** This offer expires tonight 🌙
+
+**Body:**
+
+Hey,
+
+Quick note - the 50% off launch special ends at midnight.
+
+After that, Pro goes back to:
+→ $7.99/month
+→ $97 lifetime
+
+If you've been on the fence, now's the time.
+
+**Link:** https://neural-ashy.vercel.app/pricing
+
+No pressure. But I genuinely believe this tool can change your life if you use it consistently.
+
+- Wayne
+
+---
+
+## Email 6: Cart Abandonment (If implemented)
+
+**Subject:** Did you mean to upgrade?
+
+**Body:**
+
+Hey,
+
+I noticed you checked out the pricing page but didn't complete your upgrade.
+
+No worries - things come up.
+
+But just in case, here's your link:
+
+→ https://neural-ashy.vercel.app/pricing
+
+If you have any questions about what Pro includes, just reply. Happy to help.
+
+- Wayne
